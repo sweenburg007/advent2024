@@ -14,13 +14,8 @@ fn validate_report(report: &Vec<i32>) -> bool {
 
 fn main() {
     let file_path = "./input.txt";
-    // let file_path = "./test_input.txt";
-    println!("In file {file_path}");
-
-    // read in the data
     let contents = fs::read_to_string(file_path).expect("Should have been able to read the file");
 
-    // split the strings by new lines so we can loop over them
     let lines: Vec<&str> = contents.split("\n").collect();
 
     let mut num_safe_reports = 0;
@@ -42,22 +37,18 @@ fn main() {
         }
     }
     println!("Part 1 Number of safe reports = {num_safe_reports}");
-
-    // println!("Unsafe reports:");
-    // println!("{:?}", unsafe_reports);
     println!("------------------------------");
 
     // loop over all the unsafe reports and see if removing a single value fixes them
     let mut fixable = 0;
     for unsafe_report in unsafe_reports {
-        // println!("{:?}", unsafe_report);
         for i in 0..unsafe_report.len() {
+            // TODO: There has GOT to be a better way to do this... I really don't like this clone
             let mut tmp = unsafe_report.clone();
             tmp.remove(i);
 
             if validate_report(&tmp) {
                 fixable += 1;
-                // println!("Can fix this, breaking out for next unfix");
                 break;
             }
         }
